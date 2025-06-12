@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAuth, RecaptchaVerifier, GoogleAuthProvider, signInWithPopup, ConfirmationResult, signInWithPhoneNumber, UserCredential, User, onAuthStateChanged } from "firebase/auth";
+import { getAuth, RecaptchaVerifier, GoogleAuthProvider, signInWithPopup, User, onAuthStateChanged } from "firebase/auth";
 
 declare global {
     interface Window {
@@ -8,8 +8,10 @@ declare global {
     }
 }
 interface FirebaseContextType {
-    signInWithPhone: (number: string) => Promise<ConfirmationResult>;
-    verifyOTP: (otp: string) => Promise<UserCredential>;
+    // signInWithPhone: (number: string) => Promise<ConfirmationResult>;
+    // verifyOTP: (otp: string) => Promise<UserCredential>;
+    currentUser: User | null; // Add currentUser here
+    signInWithGoogle: () => Promise<void>; // Add signInWithGoogle here
 }
 
 const FirebaseContext = createContext<FirebaseContextType | undefined>(undefined);
@@ -68,7 +70,7 @@ export const FirebaseProvider = ( {children }: { children: React.ReactNode }) =>
         return () => unsubscribe();
     }, [])
 
-    const signinWithGoogle = async () => {
+    const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
         } catch (err) {
@@ -76,7 +78,7 @@ export const FirebaseProvider = ( {children }: { children: React.ReactNode }) =>
         }
     }
 
-    return <FirebaseContext.Provider value={{ currentUser, signinWithGoogle }}>
+    return <FirebaseContext.Provider value={{ currentUser, signInWithGoogle }}>
         {children}
     </FirebaseContext.Provider>
 }
