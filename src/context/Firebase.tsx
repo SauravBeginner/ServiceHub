@@ -22,13 +22,14 @@ export const useFirebase = () => {
 };
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAYINPQeFN97zbw3oQ4FESvr3Rbpg0safc",
-    authDomain: "service-hub-b137e.firebaseapp.com",
-    projectId: "service-hub-b137e",
-    storageBucket: "service-hub-b137e.firebasestorage.app",
-    messagingSenderId: "900448277590",
-    appId: "1:900448277590:web:0aa5440760d397ef5a57f7",
-    measurementId: "G-TD62FJMR11"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+
 };
 
 // Initialize Firebase
