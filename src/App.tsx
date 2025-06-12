@@ -10,8 +10,6 @@ const SearchResultsPage = React.lazy(() => import('./pages/SearchResultsPage'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
-const PhoneLoginPage = React.lazy(() => import('./pages/PhoneLoginPage'));
-const VerifyPhonePage = React.lazy(() => import('./pages/VerifyPhonePage'));
 const ServiceDetailPage = React.lazy(() => import('./pages/ServiceDetailPage'));
 const RentalsPage = React.lazy(() => import('./pages/RentalsPage'));
 const RentalDetailPage = React.lazy(() => import('./pages/RentalDetailPage'));
@@ -39,9 +37,6 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/phone-login" element={<PhoneLoginPage />} />
-            <Route path="//verify-phone" element={<VerifyPhonePage />} />
-            <Route path="/google-login" element={<GoogleLogin />} /> */}
           <Route path="/post-rental" element={<ProtectedRoute><PostRentalPage /></ProtectedRoute>} />
           <Route path="/post-resale" element={<ProtectedRoute><PostResalePage /></ProtectedRoute>} />
         </Route>
