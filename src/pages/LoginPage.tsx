@@ -13,8 +13,6 @@ const LoginPage: React.FC = () => {
     confirmPassword: ''
   });
 
-  const firebase = useFirebase();
-
   // console.log(firebase);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -31,14 +29,13 @@ const LoginPage: React.FC = () => {
     });
   };
 
-  //@ts-ignore
-  const { signinWithGoogle } = useFirebase();
+  const { signInWithGoogle } = useFirebase();
   const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
     try {
       console.log('Logging in');
-      const user = await signinWithGoogle();
+      const user = await signInWithGoogle();
       console.log('Logged in as:', user.displayName);
       navigate('/'); // or wherever you want to go
     } catch (err) {

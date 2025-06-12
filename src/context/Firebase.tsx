@@ -11,7 +11,7 @@ interface FirebaseContextType {
     // signInWithPhone: (number: string) => Promise<ConfirmationResult>;
     // verifyOTP: (otp: string) => Promise<UserCredential>;
     currentUser: User | null; // Add currentUser here
-    signInWithGoogle: () => Promise<void>; // Add signInWithGoogle here
+    signInWithGoogle: any; // Add signInWithGoogle here
 }
 
 const FirebaseContext = createContext<FirebaseContextType | undefined>(undefined);

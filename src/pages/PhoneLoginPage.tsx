@@ -9,8 +9,7 @@ const PhoneLoginPage: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  //@ts-ignore
+  
   const { signInWithPhone } = useFirebase();
   
   const handleSendCode = async (e: React.FormEvent) => {
