@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useFirebase } from '../context/Firebase';
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,6 +12,10 @@ const LoginPage: React.FC = () => {
     password: '',
     confirmPassword: ''
   });
+
+  const firebase = useFirebase();
+
+  // console.log(firebase);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +29,22 @@ const LoginPage: React.FC = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  //@ts-ignore
+  const { signinWithGoogle } = useFirebase();
+  const navigate = useNavigate();
+
+  const handleGoogleLogin = async () => {
+    try {
+      console.log('Logging in');
+      const user = await signinWithGoogle();
+      console.log('Logged in as:', user.displayName);
+      navigate('/'); // or wherever you want to go
+    } catch (err) {
+      console.log(err);
+      //alert('Login failed');
+    }
   };
 
   return (
@@ -59,7 +80,7 @@ const LoginPage: React.FC = () => {
                     id="name"
                     name="name"
                     type="text"
-                    required={!isLogin}
+                    // required={!isLogin}
                     value={formData.name}
                     onChange={handleChange}
                     className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -79,7 +100,7 @@ const LoginPage: React.FC = () => {
                   id="email"
                   name="email"
                   type="email"
-                  required
+                  // required
                   value={formData.email}
                   onChange={handleChange}
                   className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -98,7 +119,7 @@ const LoginPage: React.FC = () => {
                   id="password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-                  required
+                  // required
                   value={formData.password}
                   onChange={handleChange}
                   className="appearance-none relative block w-full px-3 py-2 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -125,7 +146,7 @@ const LoginPage: React.FC = () => {
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password"
-                    required={!isLogin}
+                    // required={!isLogin}
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -167,6 +188,12 @@ const LoginPage: React.FC = () => {
               </button>
             </div>
           </form>
+           <button
+              onClick={handleGoogleLogin}
+              className="bg-red-500 text-white px-4 py-2 my-2 rounded hover:bg-red-600 w-full"
+            >
+              Sign in with Google
+            </button>
         </div>
       </div>
     </div>
