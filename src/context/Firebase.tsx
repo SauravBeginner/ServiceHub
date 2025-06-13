@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAuth, RecaptchaVerifier, GoogleAuthProvider, signInWithPopup, User, onAuthStateChanged } from "firebase/auth";
+import { getAuth, RecaptchaVerifier, GoogleAuthProvider, signInWithPopup, User, onAuthStateChanged, getRedirectResult, signInWithRedirect } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 declare global {
     interface Window {
@@ -33,8 +34,6 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-console.log(firebaseConfig);
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -66,6 +65,7 @@ export const FirebaseProvider = ( {children }: { children: React.ReactNode }) =>
     // };
 
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setCurrentUser);
@@ -75,11 +75,26 @@ export const FirebaseProvider = ( {children }: { children: React.ReactNode }) =>
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
+            // await signInWithRedirect(auth, googleProvider);
+            console.log('Hi');
         } catch (err) {
             throw err;
         }
     }
-
+    // useEffect(() => {
+    //     getRedirectResult(auth)
+    //       .then((result) => {
+    //         if (result && result.user) {
+    //           console.log("Redirect login success:", result.user);
+    //           setCurrentUser(result.user);
+    //           navigate('/'); // Navigate to home after successful redirect login
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.error("Redirect login error:", error);
+    //       });
+    //   }, [navigate]);
+      
     return <FirebaseContext.Provider value={{ currentUser, signInWithGoogle }}>
         {children}
     </FirebaseContext.Provider>

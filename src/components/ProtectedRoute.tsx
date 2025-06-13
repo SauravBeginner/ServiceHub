@@ -4,9 +4,9 @@ import { useFirebase } from "../context/Firebase"
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { currentUser } = useFirebase();
 
-    if (!currentUser) {
-        <Navigate to='/login' replace />
-    }
+    // if (!currentUser) {
+    //     <Navigate to='/login' replace />
+    // }
 
     return children;
 }

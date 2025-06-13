@@ -34,10 +34,9 @@ const LoginPage: React.FC = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      console.log('Logging in');
-      const user = await signInWithGoogle();
-      console.log('Logged in as:', user.displayName);
-      navigate('/'); // or wherever you want to go
+      await signInWithGoogle();
+      console.log('Hello');
+    //  navigate('/'); // or wherever you want to go
     } catch (err) {
       console.log(err);
       //alert('Login failed');

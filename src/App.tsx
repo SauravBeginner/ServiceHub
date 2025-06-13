@@ -37,8 +37,8 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/post-rental" element={<ProtectedRoute><PostRentalPage /></ProtectedRoute>} />
-          <Route path="/post-resale" element={<ProtectedRoute><PostResalePage /></ProtectedRoute>} />
+          <Route path="/post-rental" element={<PostRentalPage />} />
+          <Route path="/post-resale" element={<PostResalePage />} />
         </Route>
       </Routes>
     </div>
