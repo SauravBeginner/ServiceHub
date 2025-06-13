@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { useFirebase } from '../context/Firebase';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useFirebase } from "../context/Firebase";
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   // console.log(firebase);
@@ -18,14 +18,14 @@ const LoginPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle authentication here
-    console.log('Form submitted:', formData);
-    alert(isLogin ? 'Login successful!' : 'Registration successful!');
+    console.log("Form submitted:", formData);
+    alert(isLogin ? "Login successful!" : "Registration successful!");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -35,8 +35,8 @@ const LoginPage: React.FC = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithGoogle();
-      console.log('Hello');
-    //  navigate('/'); // or wherever you want to go
+      console.log("Hello");
+      navigate("/"); // or wherever you want to go
     } catch (err) {
       console.log(err);
       //alert('Login failed');
@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
             <h1 className="text-3xl font-bold text-blue-600">ServiceHub</h1>
           </Link>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isLogin ? 'Sign in to your account' : 'Create your account'}
+            {isLogin ? "Sign in to your account" : "Create your account"}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
@@ -59,7 +59,7 @@ const LoginPage: React.FC = () => {
               onClick={() => setIsLogin(!isLogin)}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
-              {isLogin ? 'Sign up' : 'Sign in'}
+              {isLogin ? "Sign up" : "Sign in"}
             </button>
           </p>
         </div>
@@ -68,7 +68,10 @@ const LoginPage: React.FC = () => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             {!isLogin && (
               <div>
-                <label htmlFor="name\" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="name\"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Full Name
                 </label>
                 <div className="mt-1 relative">
@@ -88,7 +91,10 @@ const LoginPage: React.FC = () => {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email Address
               </label>
               <div className="mt-1 relative">
@@ -107,14 +113,17 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1 relative">
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   // required
                   value={formData.password}
                   onChange={handleChange}
@@ -134,7 +143,10 @@ const LoginPage: React.FC = () => {
 
             {!isLogin && (
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Confirm Password
                 </label>
                 <div className="mt-1 relative">
@@ -162,13 +174,19 @@ const LoginPage: React.FC = () => {
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
                     Remember me
                   </label>
                 </div>
 
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                  <a
+                    href="#"
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
                     Forgot your password?
                   </a>
                 </div>
@@ -180,16 +198,16 @@ const LoginPage: React.FC = () => {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                {isLogin ? 'Sign in' : 'Sign up'}
+                {isLogin ? "Sign in" : "Sign up"}
               </button>
             </div>
           </form>
-           <button
-              onClick={handleGoogleLogin}
-              className="bg-red-500 text-white px-4 py-2 my-2 rounded hover:bg-red-600 w-full"
-            >
-              Sign in with Google
-            </button>
+          <button
+            onClick={handleGoogleLogin}
+            className="bg-red-500 text-white px-4 py-2 my-2 rounded hover:bg-red-600 w-full"
+          >
+            Sign in with Google
+          </button>
         </div>
       </div>
     </div>

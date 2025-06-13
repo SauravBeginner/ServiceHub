@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useFirebase } from "../context/Firebase";
 
-const ProtectedRoute = () => {
+const PublicRoute = () => {
   const { currentUser } = useFirebase();
 
-  return currentUser ? <Outlet /> : <Navigate to="/login" />;
+  return !currentUser ? <Outlet /> : <Navigate to="/" />;
 };
 
-export default ProtectedRoute;
+export default PublicRoute;
