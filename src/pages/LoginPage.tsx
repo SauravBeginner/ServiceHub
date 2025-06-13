@@ -35,7 +35,6 @@ const LoginPage: React.FC = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithGoogle();
-      console.log("Hello");
       navigate("/"); // or wherever you want to go
     } catch (err) {
       console.log(err);
