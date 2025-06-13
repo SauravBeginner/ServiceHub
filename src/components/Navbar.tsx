@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, Home, Package, ShoppingBag, Grid3X3, Phone, User, MapPin } from 'lucide-react';
-import { useFirebase } from '../context/Firebase';
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Search,
+  Menu,
+  X,
+  Home,
+  Package,
+  ShoppingBag,
+  Grid3X3,
+  Phone,
+  User,
+  MapPin,
+  LogOut,
+} from "lucide-react";
+import { useFirebase } from "../context/Firebase";
 
 interface NavbarProps {
   onSearch?: (query: string) => void;
@@ -9,18 +21,22 @@ interface NavbarProps {
 }
 const Navbar: React.FC<NavbarProps> = ({ onSearch, onLocationChange }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const locationPath = useLocation();
-  const [location, setLocation] = useState('');
-  const [searchActive, setSearchActive] = useState(false)
+  const [location, setLocation] = useState("");
+  const [searchActive, setSearchActive] = useState(false);
   const navigate = useNavigate();
-  const {currentUser} = useFirebase();
+  const { currentUser } = useFirebase();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setSearchActive(false);
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}`);
+      navigate(
+        `/search?q=${encodeURIComponent(
+          searchQuery
+        )}&location=${encodeURIComponent(location)}`
+      );
       if (onSearch) onSearch(searchQuery);
       if (onLocationChange && location) onLocationChange(location);
     }
@@ -28,24 +44,37 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onLocationChange }) => {
 
   const isActive = (path: string) => locationPath.pathname === path;
 
+  const { logOut } = useFirebase();
+
   const navLinks = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/rentals', label: 'Rentals', icon: Package },
-    { path: '/resale', label: 'Resale', icon: ShoppingBag },
-    { path: '/categories', label: 'Services', icon: Grid3X3 },
-    { path: '/contact', label: 'Contact', icon: Phone },
+    { path: "/", label: "Home", icon: Home },
+    { path: "/rentals", label: "Rentals", icon: Package },
+    { path: "/resale", label: "Resale", icon: ShoppingBag },
+    { path: "/categories", label: "Services", icon: Grid3X3 },
+    { path: "/contact", label: "Contact", icon: Phone },
   ];
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className={`flex items-center h-16 ${searchActive ? 'justify-center' : 'justify-between'}`}>
+        <div
+          className={`flex items-center h-16 ${
+            searchActive ? "justify-center" : "justify-between"
+          }`}
+        >
           {/* Logo */}
-          <Link to="/" className={`flex items-center space-x-2 ${searchActive ? 'hidden sm:flex' : 'flex'}`}>
+          <Link
+            to="/"
+            className={`flex items-center space-x-2 ${
+              searchActive ? "hidden sm:flex" : "flex"
+            }`}
+          >
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <Search className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg md:text-xl font-bold text-gray-900">ServiceHub</span>
+            <span className="text-lg md:text-xl font-bold text-gray-900">
+              ServiceHub
+            </span>
           </Link>
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-2xl mx-8">
@@ -81,38 +110,55 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onLocationChange }) => {
             </form>
           </div>
           {/* Desktop Navigation */}
-          {!searchActive && <div className="hidden lg:flex items-center space-x-4">
-            {navLinks.map(({ path, label, icon: Icon }) => (
-              <Link
-                key={path}
-                to={path}
-                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(path)
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+          {!searchActive && (
+            <div className="hidden lg:flex items-center space-x-4">
+              {navLinks.map(({ path, label, icon: Icon }) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive(path)
+                      ? "text-blue-600 bg-blue-50"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
                   }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{label}</span>
-              </Link>
-            ))}
-          </div>}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{label}</span>
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Right side buttons */}
-          {!searchActive && <div className="hidden lg:flex items-center space-x-2">
-           {!currentUser && <Link
-              to="/login"
-              className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              <User className="w-4 h-4" />
-              <span>Login</span>
-            </Link>}
-           {currentUser && <Link
-              to="/post-rental"
-              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
-            >
-              Post Item
-            </Link>}
-          </div>}
+          {!searchActive && (
+            <div className="hidden lg:flex items-center space-x-2">
+              {!currentUser && (
+                <Link
+                  to="/login"
+                  className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Login</span>
+                </Link>
+              )}
+              {currentUser && (
+                <>
+                  <Link
+                    to="/post-rental"
+                    className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Post Item
+                  </Link>
+                  <button
+                    onClick={logOut}
+                    className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    <LogOut />
+                  </button>
+                </>
+              )}
+            </div>
+          )}
           {/* Mobile Search Bar */}
           <div className="md:hidden">
             <form onSubmit={handleSearch} className="flex space-x-2">
@@ -143,7 +189,11 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onLocationChange }) => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -157,10 +207,11 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onLocationChange }) => {
                   key={path}
                   to={path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                    }`}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive(path)
+                      ? "text-blue-600 bg-blue-50"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                  }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{label}</span>
